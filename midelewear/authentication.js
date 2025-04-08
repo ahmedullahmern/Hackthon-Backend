@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import sendResponse from '../helpers/sendResponse.js';
-import User from '../models/user.js';
+import User from '../models/auth.js';
 
 export async function authenticationUser(req, res, next) {
     try {
@@ -20,7 +20,7 @@ export async function authenticationUser(req, res, next) {
             return sendResponse(res, 500, null, true, "SomeThing Went Worng")
         }
     } catch (error) {
-        return sendResponse(res, 500, null, true, "SomeThing Went Worng")
+        return sendResponse(res, 500, null, true, "error.message in middleweare AuthenticationUser")
     }
 }
 
@@ -28,6 +28,7 @@ export async function authenticationUser(req, res, next) {
 export async function authenticationAdmin(req, res, next) {
     try {
         const bearerToken = req?.headers?.authorization
+        console.log("TOKEN MISSONG==>",req?.headers?.authorization)
         if (!bearerToken) return sendResponse(res, 403, null, true, "Token not Provide")
 
         const token = bearerToken?.split(" ")[1]
